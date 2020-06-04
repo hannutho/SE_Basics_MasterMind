@@ -45,10 +45,12 @@ def play_mastermind():
 
     while trys > 0:
         trys-=1
+
         guess = validate_code(input("Make a guess:"),tried_codes)
         tried_codes.append(guess)
+
         if(guess == code):
-            print("You won the game!!!!!!")
+            print("You won the game! The code was '{}'. Congratulations!".format(code))
             return
         else:
             system("clear")
@@ -60,7 +62,6 @@ def play_mastermind():
 
     system("clear")
     print("You ran out of trys. The codemaker beat you. The right code was '{}'. Good luck next time!".format(code))
-
 
 
 play_mastermind()
