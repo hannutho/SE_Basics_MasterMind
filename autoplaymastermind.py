@@ -1,5 +1,6 @@
 from random import randrange
 from os import system
+from itertools import product
 
 legit_numbers = [1,2,3,4,5,6]
 
@@ -23,29 +24,34 @@ def describe_hints(code, guess):
 
 def autoplay_mastermind():
 
-    trys = 12
-    code = create_combination()
     tried_codes = []
 
-    while trys > 0:
-        trys-=1
+    trys = 12
 
-        guess = validate_code(input("Make a guess:"),tried_codes)
+    code = create_combination()
+    print("Code: " + code)
+
+    allCodes = ["".join([str(y) for y in x]) for x in product(range(1,7), repeat=4)]
+
+    while trys > 0:
+        trys -= 1
+
+        #Get random guess from all codes/remaining codes
+        guess = allCodes[randrange(len(allCodes))]
         tried_codes.append(guess)
 
+        #If win return
         if(guess == code):
-            print("You won the game! The code was '{}'. Congratulations!".format(code))
+            print("Game won in {} trys!".format(12-trys))
+            print("Tried codes: {}".format(tried_codes))
             return
-        else:
-            system("clear")
-            right_number, right_position = describe_hints(code,guess)
-            print("Your guess '{}' is wrong! Try again! (Trys left: {})".format(guess,trys))
-            print("Hints:")
-            print("     {} of your numbers are inside the code!".format(right_number))
-            print("     {} of your numbers are at the right position!".format(right_position))
 
-    system("clear")
-    print("You ran out of trys. The codemaker beat you. The right code was '{}'. Good luck next time!".format(code))
+        #Remove all codes that dont give same hints in reference to current guess as current guess does in reference to the code
+        tmp = []
+        for x in allCodes:
+            if describe_hints(x,guess) == describe_hints(code,guess):
+                if(x != guess):
+                    tmp.append(x)
+        allCodes = tmp
 
-
-play_mastermind()
+autoplay_mastermind()
