@@ -21,16 +21,13 @@ def describe_hints(code, guess):
     right_number = 0
     right_position = 0
     temp_code = [x for x in code]
-
-    for x in guess:
-        if x in temp_code:
-            right_number+=1
-            temp_code.remove(x)
-
+    
     for idx,x in enumerate(guess):
         if x == code[idx]:
             right_position+=1
-    
+        elif x in temp_code:
+            right_number+=1
+
     return right_number, right_position
 
 
@@ -40,7 +37,8 @@ def play_mastermind():
     print("Welcome to master mind!\nYour task is to crack the code of the codemaker. To achieve this you have 12 trys.\nAfter each try the codemaker will give you hints about how many of your number were in the code and how many at the right position.")
 
     trys = 12
-    code = create_combination()
+    #code = create_combination()
+    code = "4431"
     tried_codes = []
 
     while trys > 0:
